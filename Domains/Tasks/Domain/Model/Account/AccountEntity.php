@@ -4,17 +4,17 @@ namespace Domains\Context\BankAccount\Domain\Model\Account;
 
 use Assert\Assert;
 use Assert\AssertionFailedException;
+use CrossCutting\Domain\Application\Event\Bus\DomainEventBus;
+use CrossCutting\Domain\Model\ValueObjects\AggregateRoot;
 use Domains\Context\BankAccount\Domain\Model\Account\Account;
 use Domains\Context\BankAccount\Domain\Model\Account\AccountCreated;
 use Domains\Context\BankAccount\Domain\Model\Account\AccountRejected;
 use Domains\Context\BankAccount\Domain\Model\Account\Balance;
-use Domains\CrossCutting\Domain\Application\Event\Bus\DomainEventBus;
-use Domains\CrossCutting\Domain\Model\ValueObjects\AggregateRoot;
 
 final class AccountEntity extends AggregateRoot implements Account
 {
 
-    private $id;
+    private Identified $identifier;
 
     private $customerId;
 
@@ -29,7 +29,7 @@ final class AccountEntity extends AggregateRoot implements Account
         parent::__construct($domainEventBus);
     }
 
-    public function createFrom(int $customerId, string $accountName, Balance $balance): Account
+    public function createFrom(Identified $identifier, int $customerId, string $accountName, Balance $balance): Account
     {
 
         $this->customerId = $customerId;
@@ -57,9 +57,9 @@ final class AccountEntity extends AggregateRoot implements Account
         return true;
     }
 
-    public function readFrom(int $id, int $customerId, string $accountName, Balance $balance): Account
+    public function fromExisting(Identified $identifier, int $customerId, string $accountName, Balance $balance): Account
     {
-        $this->id = $id;
+        $this->identifier = $identifier;
         $this->customerId = $customerId;
         $this->accountName = $accountName;
         $this->balance = $balance;

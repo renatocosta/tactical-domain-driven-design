@@ -2,14 +2,15 @@
 
 namespace Domains\Context\BankAccount\Domain\Model\Account;
 
-use Domains\CrossCutting\Domain\Model\Common\Validatable;
+use CrossCutting\ValueObjects\Identity\Identified;
+use Domains\CrossCutting\DataConsistency\Validatable;
 
 interface Account extends Validatable
 {
 
-    public function createFrom(int $customerId, string $accountName, Balance $balance): Account;
+    public function createFrom(Identified $identifier, int $customerId, string $accountName, Balance $balance): Account;
 
-    public function readFrom(int $id, int $customerId, string $accountName, Balance $balance): Account;
+    public function fromExisting(Identified $identifier, int $customerId, string $accountName, Balance $balance): Account;
 
     public function isEligible(): bool;
 
