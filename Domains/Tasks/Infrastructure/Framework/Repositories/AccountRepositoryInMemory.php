@@ -41,6 +41,11 @@ final class AccountRepositoryInMemory implements IAccountRepository
 
     }
 
+    public function countFor(Account $account): int
+    {
+        return 44;
+    }
+    
     public function findTransactions(int $accountid): array
     {
 

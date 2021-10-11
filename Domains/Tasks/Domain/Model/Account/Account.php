@@ -3,16 +3,14 @@
 namespace Domains\Context\BankAccount\Domain\Model\Account;
 
 use CrossCutting\ValueObjects\Identity\Identified;
-use Domains\CrossCutting\DataConsistency\Validatable;
+use CrossCutting\ValueObjects\Money\Money;
 
-interface Account extends Validatable
+interface Account
 {
 
-    public function createFrom(Identified $identifier, int $customerId, string $accountName, Balance $balance): Account;
+    public function credit(Money $amount): void;
 
-    public function fromExisting(Identified $identifier, int $customerId, string $accountName, Balance $balance): Account;
-
-    public function isEligible(): bool;
+    public function debit(Money $amount): void;
 
     public function getCustomerId(): int;
 
@@ -20,7 +18,10 @@ interface Account extends Validatable
 
     public function getBalance(): Balance;
 
-    public function setId(int $id);
+    public function getId(): Identified;
 
-    public function getId(): int;
+    public function createNew(Identified $identifier, int $customerId, string $accountName, Balance $balance): void;
+
+    public function fromExisting(Identified $identifier, int $customerId, string $accountName, Balance $balance): void;
+
 }

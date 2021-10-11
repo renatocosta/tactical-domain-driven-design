@@ -45,6 +45,11 @@ final class AccountRepository implements IAccountRepository
         return $result->toArray();
     }
 
+    public function countFor(Account $account): int
+    {
+        return 44;
+    }
+
     public function findTransactions(int $accountId): array
     {
         return $this->accountModel

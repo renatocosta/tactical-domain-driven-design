@@ -17,13 +17,10 @@ final class CreateAccountUseCase implements ICreateAccountUseCase
 
     private $accountRepository;
 
-    private IUnitOfWork $unitOfWork;
-
-    public function __construct(Account $account, IAccountRepository $accountRepository, IUnitOfWork $unitOfWork)
+    public function __construct(Account $account, IAccountRepository $accountRepository)
     {
         $this->account = $account;
         $this->accountRepository = $accountRepository;
-        $this->unitOfWork = $unitOfWork;
     }
 
     public function execute(CreateAccountInput $input): void
@@ -34,12 +31,5 @@ final class CreateAccountUseCase implements ICreateAccountUseCase
             return;
         }
 
-        try {
-            $this->accountRepository->create($this->account);
-            $this->unitOfWork->commit();
-        } catch (Exception $e) {
-            $input->modelState->addError('Something went wrong while creating a new account');
-            $this->unitOfWork->rollback();
-        }
     }
 }

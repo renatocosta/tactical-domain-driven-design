@@ -3,7 +3,6 @@
 namespace Domains\Context\BankAccount\Domain\Model\Account;
 
 use Assert\Assert;
-use Assert\AssertionFailedException;
 use CrossCutting\Domain\Application\Event\Bus\DomainEventBus;
 use CrossCutting\Domain\Model\ValueObjects\AggregateRoot;
 use Domains\Context\BankAccount\Domain\Model\Account\Account;
@@ -22,55 +21,60 @@ final class AccountEntity extends AggregateRoot implements Account
 
     private $balance;
 
-    private $errors = [];
-
     public function __construct(DomainEventBus $domainEventBus)
     {
         parent::__construct($domainEventBus);
     }
 
-    public function createFrom(Identified $identifier, int $customerId, string $accountName, Balance $balance): Account
+    public function createNew(Identified $identifier, int $customerId, string $accountName, Balance $balance): void
     {
 
-        $this->customerId = $customerId;
-        $this->accountName = $accountName;
-        $this->balance = $balance;
+        Assert::that($customerId, 'CUSTOMER_ID_CAN_NOT_BE_ZERO_OR_NEGATIVE')->greaterThan(0);
 
-        if ($this->isEligible()) {
-            $this->raise(new AccountCreated($this));
-        } else {
-            $this->raise(new AccountRejected($this));
-        }
-
-        return $this;
-    }
-
-    public function isEligible(): bool
-    {
-        try {
-            Assert::that($this->customerId, 'CUSTOMER_ID_CAN_NOT_BE_ZERO_OR_NEGATIVE')->greaterThan(0);
-        } catch (AssertionFailedException $e) {
-            $this->errors[] = $e->getMessage();
-            return false;
-        }
-
-        return true;
-    }
-
-    public function fromExisting(Identified $identifier, int $customerId, string $accountName, Balance $balance): Account
-    {
         $this->identifier = $identifier;
         $this->customerId = $customerId;
         $this->accountName = $accountName;
         $this->balance = $balance;
 
-        $this->isEligible();
-        return $this;
+    }
+
+    public function fromExisting(Identified $identifier, int $customerId, string $accountName, Balance $balance): void
+    {
+
+        Assert::that($customerId, 'CUSTOMER_ID_CAN_NOT_BE_ZERO_OR_NEGATIVE')->greaterThan(0);
+
+        $this->identifier = $identifier;
+        $this->customerId = $customerId;
+        $this->accountName = $accountName;
+        $this->balance = $balance;
+
+    }
+
+    public function credit(Money $amount): void
+    {
+        //BUsiness logic here    
+        $this->raise(new AccountCreditPlaced($this));
+    }
+
+    public function debit(Money $amount): void
+    {
+        //BUsiness logic here    
+        $this->raise(new AccountDebitPlaced($this));
+    }
+
+    public function setCustomerId(int $id): void
+    {
+        $this->customerId = $id;
     }
 
     public function getCustomerId(): int
     {
         return $this->customerId;
+    }
+
+    public function setAccountName(String $name): void
+    {
+        $this->accountName = $name;
     }
 
     public function getAccountName(): string
@@ -83,24 +87,14 @@ final class AccountEntity extends AggregateRoot implements Account
         return $this->balance;
     }
 
-    public function setId(int $id)
+    public function setId(Identified $identifier): void
     {
-        $this->id = $id;
+        $this->identifier = $identifier;
     }
 
     public function getId(): int
     {
         return $this->id;
-    }
-
-    public function isValid(): bool
-    {
-        return count($this->errors) === 0;
-    }
-
-    public function getErrors(): array
-    {
-        return $this->errors;
     }
 
     public function __toString(): string

@@ -13,6 +13,8 @@ interface IAccountRepository
 
     public function findById(int $accountId): Account;
 
+    public function countFor(Account $account): int;
+
     public function findTransactions(int $accountid): array;
 
 }
