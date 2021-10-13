@@ -2,6 +2,16 @@
 
 namespace Domains\Tasks\Infrastructure\Framework\Providers;
 
+use CrossCutting\Domain\Application\Event\Bus\DomainEventBus;
+use Domains\Context\BankAccount\Application\EventHandlers\Account\AccountCreatedEventHandler;
+use Domains\Context\BankAccount\Application\EventHandlers\Account\AccountRejectedEventHandler;
+use Domains\Context\BankAccount\Application\UseCases\Account\CreateAccountUseCase;
+use Domains\Context\BankAccount\Application\UseCases\Account\ICreateAccountUseCase;
+use Domains\Context\BankAccount\Domain\Model\Account\Account;
+use Domains\Context\BankAccount\Domain\Model\Account\AccountEntity;
+use Domains\Context\BankAccount\Domain\Model\Account\AccountRepository;
+use Domains\Context\BankAccount\Domain\Model\Account\IAccountRepository;
+use Domains\Context\BankAccount\Infrastructure\Framework\Entities\AccountModel;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
 
@@ -28,6 +38,35 @@ class TasksServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->register(RouteServiceProvider::class);
+        $this->loadEssentials();
+        $this->loadUseCases();
+    }
+
+    public function loadEssentials(): void
+    {
+        $this->app->singleton(DomainEventBus::class, function () {
+            return new DomainEventBus();
+        });
+
+        $this->app->singleton(IAccountRepository::class, function () {
+            return new AccountRepository(new AccountModel());
+        });
+
+        $this->app->singleton(Account::class, function (DomainEventBus $domainEventBus) {
+            return new AccountEntity($domainEventBus);
+        });
+    }
+
+    public function loadUseCases(): void
+    {
+        ## Create Account ##
+        $this->app->singleton(
+            ICreateAccountUseCase::class,
+            function (DomainEventBus $domainEventBus, Account $account, IAccountRepository $accountRepository) {
+                $domainEventBus->subscribers([new AccountCreatedEventHandler(), new AccountRejectedEventHandler(), new AccountCreatedNotificationEventHandler(), new AccountCreatedStreamEventHandler()]);
+                return new CreateAccountUseCase($account, $accountRepository);
+            }
+        );
     }
 
     /**
@@ -38,31 +77,12 @@ class TasksServiceProvider extends ServiceProvider
     protected function registerConfig()
     {
         $this->publishes([
-            __DIR__.'/../Config/config.php' => config_path('tasks.php'),
+            __DIR__ . '/../Config/config.php' => config_path('tasks.php'),
         ], 'config');
         $this->mergeConfigFrom(
-            __DIR__.'/../Config/config.php', 'tasks'
+            __DIR__ . '/../Config/config.php',
+            'tasks'
         );
-    }
-
-    /**
-     * Register views.
-     *
-     * @return void
-     */
-    public function registerViews()
-    {
-        $viewPath = resource_path('views/modules/tasks');
-
-        $sourcePath = __DIR__.'/../Resources/views';
-
-        $this->publishes([
-            $sourcePath => $viewPath
-        ],'views');
-
-        $this->loadViewsFrom(array_merge(array_map(function ($path) {
-            return $path . '/modules/tasks';
-        }, \Config::get('view.paths')), [$sourcePath]), 'tasks');
     }
 
     /**
@@ -77,7 +97,7 @@ class TasksServiceProvider extends ServiceProvider
         if (is_dir($langPath)) {
             $this->loadTranslationsFrom($langPath, 'tasks');
         } else {
-            $this->loadTranslationsFrom(__DIR__ .'/../Resources/lang', 'tasks');
+            $this->loadTranslationsFrom(__DIR__ . '/../Resources/lang', 'tasks');
         }
     }
 
@@ -88,7 +108,7 @@ class TasksServiceProvider extends ServiceProvider
      */
     public function registerFactories()
     {
-        if (! app()->environment('production') && $this->app->runningInConsole()) {
+        if (!app()->environment('production') && $this->app->runningInConsole()) {
             app(Factory::class)->load(__DIR__ . '/../Database/factories');
         }
     }

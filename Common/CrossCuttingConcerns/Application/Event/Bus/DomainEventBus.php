@@ -4,6 +4,8 @@ namespace CrossCutting\Domain\Application\Event\Bus;
 
 use CrossCutting\Domain\Application\Event\AbstractEvent;
 use CrossCutting\Domain\Application\Event\DomainEventHandler;
+use Exception;
+use InvalidArgumentException;
 
 final class DomainEventBus
 {
@@ -23,6 +25,17 @@ final class DomainEventBus
         throw new \BadMethodCallException('Clone is not supported');
     }
 
+    public function subscribers(array $subscribers): void
+    {
+
+        if (count($subscribers) === 0) throw new Exception('Subscribers are mandatory');
+
+        foreach ($subscribers as $subscriber) {
+            if (!$subscriber instanceof DomainEventHandler) throw new InvalidArgumentException('Subscriber given can not be an instance of DomainEventHanlder');
+            $this->subscribe($subscriber);
+        }
+    }
+
     public function subscribe(DomainEventHandler $aDomainEventHandler): void
     {
         $this->eventHandlers->push($aDomainEventHandler);
@@ -38,9 +51,6 @@ final class DomainEventBus
                 $eventHandler->handle($aDomainEvent);
                 break;
             }
-
         }
-
     }
-
 }
