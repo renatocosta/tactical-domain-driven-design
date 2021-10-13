@@ -28,7 +28,7 @@ final class DomainEventBus
     public function subscribers(array $subscribers): void
     {
 
-        if (count($subscribers) === 0) throw new Exception('Subscribers are mandatory');
+        if (count($subscribers) === 0) throw new Exception('At least one field required');
 
         foreach ($subscribers as $subscriber) {
             if (!$subscriber instanceof DomainEventHandler) throw new InvalidArgumentException('Subscriber given can not be an instance of DomainEventHanlder');

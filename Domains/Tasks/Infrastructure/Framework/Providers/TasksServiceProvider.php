@@ -6,10 +6,13 @@ use CrossCutting\Domain\Application\Event\Bus\DomainEventBus;
 use Domains\Context\BankAccount\Application\EventHandlers\Account\AccountCreatedEventHandler;
 use Domains\Context\BankAccount\Application\EventHandlers\Account\AccountRejectedEventHandler;
 use Domains\Context\BankAccount\Application\UseCases\Account\CreateAccountUseCase;
+use Domains\Context\BankAccount\Application\UseCases\Account\GetAllAccountsQuery;
 use Domains\Context\BankAccount\Application\UseCases\Account\ICreateAccountUseCase;
+use Domains\Context\BankAccount\Application\UseCases\Account\IGetAccounts;
 use Domains\Context\BankAccount\Domain\Model\Account\Account;
 use Domains\Context\BankAccount\Domain\Model\Account\AccountEntity;
 use Domains\Context\BankAccount\Domain\Model\Account\AccountRepository;
+use Domains\Context\BankAccount\Domain\Model\Account\AccountRepositoryInMemory;
 use Domains\Context\BankAccount\Domain\Model\Account\IAccountRepository;
 use Domains\Context\BankAccount\Infrastructure\Framework\Entities\AccountModel;
 use Illuminate\Support\ServiceProvider;
@@ -44,12 +47,16 @@ class TasksServiceProvider extends ServiceProvider
 
     public function loadEssentials(): void
     {
+
         $this->app->singleton(DomainEventBus::class, function () {
             return new DomainEventBus();
         });
 
+        //For only use cases under Account model
         $this->app->singleton(IAccountRepository::class, function () {
-            return new AccountRepository(new AccountModel());
+            $baseRepo = new AccountRepository(new AccountModel());
+            $cachingRepo = new AccountRepositoryInMemory($baseRepo, $this->app['cache.store']);
+            return $cachingRepo;
         });
 
         $this->app->singleton(Account::class, function (DomainEventBus $domainEventBus) {
@@ -65,6 +72,14 @@ class TasksServiceProvider extends ServiceProvider
             function (DomainEventBus $domainEventBus, Account $account, IAccountRepository $accountRepository) {
                 $domainEventBus->subscribers([new AccountCreatedEventHandler(), new AccountRejectedEventHandler(), new AccountCreatedNotificationEventHandler(), new AccountCreatedStreamEventHandler()]);
                 return new CreateAccountUseCase($account, $accountRepository);
+            }
+        );
+
+        ## Querying all Accounts ##
+        $this->app->singleton(
+            IGetAccounts::class,
+            function (IAccountRepository $accountRepository) {
+                return new GetAllAccountsQuery($accountRepository);
             }
         );
     }
