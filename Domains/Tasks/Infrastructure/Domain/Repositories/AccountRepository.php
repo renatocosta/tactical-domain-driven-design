@@ -1,8 +1,6 @@
 <?php
 
-namespace Domains\Context\BankAccount\Domain\Model\Account;
-
-use Domains\Context\BankAccount\Infrastructure\Framework\Entities\AccountModel;
+namespace Domains\Context\BankAccount\Infrastructure\Domain\Repositories;
 
 final class AccountRepository implements IAccountRepository 
 {

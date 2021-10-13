@@ -1,8 +1,7 @@
 <?php
 
-namespace Domains\Context\BankAccount\Domain\Model\Account;
+namespace Domains\Context\BankAccount\Infrastructure\Domain\Repositories;
 
-use Domains\Context\BankAccount\Infrastructure\Framework\Entities\AccountModel;
 use Illuminate\Contracts\Cache\Repository as Cache;
 
 final class AccountRepositoryInMemory implements IAccountRepository 
