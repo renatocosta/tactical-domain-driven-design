@@ -41,11 +41,11 @@ class TasksServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->register(RouteServiceProvider::class);
-        $this->loadCrossDependencies();
+        $this->loadEssentials();
         $this->loadUseCases();
     }
 
-    public function loadCrossDependencies(): void
+    public function loadEssentials(): void
     {
 
         $this->app->singleton(DomainEventBus::class, function () {
