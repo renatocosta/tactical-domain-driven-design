@@ -1,12 +1,12 @@
 {
-    "name": "Tasks",
-    "alias": "tasks",
+    "name": "HostProperties",
+    "alias": "hostproperties",
     "description": "",
     "keywords": [],
     "active": 1,
     "order": 0,
     "providers": [
-        "Domains\\Tasks\\Infrastructure\\Framework\\Providers\\TasksServiceProvider"
+        "Domains\\HostProperties\\Infrastructure\\Framework\\Providers\\HostPropertiesServiceProvider"
     ],
     "aliases": {},
     "files": [],

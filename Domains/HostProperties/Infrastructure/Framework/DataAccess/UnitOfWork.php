@@ -1,6 +1,6 @@
 <?php
 
-namespace Domains\Context\BankAccount\Infrastructure\Framework\DataAccess;
+namespace Domains\HostProperties\Infrastructure\Framework\DataAccess;
 
 use Common\CrossCuttingConcerns\DataConsistency\IUnitOfWork;
 

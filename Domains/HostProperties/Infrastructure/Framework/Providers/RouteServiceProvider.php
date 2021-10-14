@@ -1,6 +1,6 @@
 <?php
 
-namespace Domains\Tasks\Infrastructure\Framework\Providers;
+namespace Domains\HostProperties\Infrastructure\Framework\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -36,8 +36,8 @@ class RouteServiceProvider extends ServiceProvider
     {
         $this->app->router
         ->group([
-            'namespace' => 'App\Http\Controllers',
-            'prefix'    => 'tasks',
+            'namespace' => 'Domains\HostProperties\Interfaces\Incoming\WebApi\Controllers',
+            'prefix'    => 'properties',
         ], function ($router) {
             require __DIR__ . '/../Routes/api.php';
         });
