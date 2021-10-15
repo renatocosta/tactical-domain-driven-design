@@ -1,21 +1,21 @@
 <?php
 
-namespace Domains\Context\BankAccount\Application\UseCases\Account;
+namespace Domains\HostProperties\Application\UseCases\Property\Queries;
 
-use Domains\Context\BankAccount\Domain\Model\Account\IAccountRepository;
+use Domains\HostProperties\Domain\Model\Property\IPropertyRepository;
 
 final class GetAllAccountsQuery implements IGetAccountsQuery
 {
 
-    private IAccountRepository $accountRepository;
+    private IPropertyRepository $propertyRepository;
 
-    public function __construct(IAccountRepository $accountRepository)
+    public function __construct(IPropertyRepository $propertyRepository)
     {
-        $this->accountRepository = $accountRepository;
+        $this->propertyRepository = $propertyRepository;
     }
 
     public function execute(): array
     {
-        return $this->accountRepository->findAll();
+        return $this->propertyRepository->findAll();
     }
 }

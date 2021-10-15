@@ -1,6 +1,6 @@
 <?php
 
-namespace CrossCutting\ValueObjects\Identity;
+namespace Common\ValueObjects\Identity;
 
 use Assert\Assertion;
 

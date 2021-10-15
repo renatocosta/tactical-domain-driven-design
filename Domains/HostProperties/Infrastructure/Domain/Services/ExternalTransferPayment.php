@@ -2,7 +2,7 @@
 
 namespace Domains\Context\BankAccount\Infrastructure\Domain\Services;
 
-use CrossCutting\ValueObjects\Money\Money;
+use Common\ValueObjects\Money\Money;
 use Domains\Context\BankAccount\Domain\Model\Account\Account;
 use Domains\Context\BankAccount\Domain\Services\PaymentTransferable;
 

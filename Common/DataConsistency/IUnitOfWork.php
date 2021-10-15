@@ -1,6 +1,6 @@
 <?php
 
-namespace Common\CrossCuttingConcerns\DataConsistency;
+namespace Common\DataConsistency;
 
 /**
  * The unit of work manages in-memory database CRUD operations on entities as an isolated transaction

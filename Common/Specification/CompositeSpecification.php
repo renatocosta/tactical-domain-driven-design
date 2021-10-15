@@ -1,6 +1,6 @@
 <?php
 
-namespace CrossCutting\Domain\Model\Specification;
+namespace Common\Specification;
 
 abstract class CompositeSpecification implements Specification
 {

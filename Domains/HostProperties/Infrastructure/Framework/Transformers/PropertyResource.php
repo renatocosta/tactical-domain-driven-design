@@ -17,14 +17,14 @@ class PropertyResource extends JsonResource
 
     return [
       '_type'               => 'Property',
-      'id'                  => $this->getIdentifier(),
+      'id'                  => $this->getIdentifier()->id,
       'street'         => $this->getAddress()->street,
       'city'         => $this->getAddress()->city,
       'state'         => $this->getAddress()->state,
       'country'         => $this->getAddress()->country,
       'zipcode'         => $this->getAddress()->zipcode,
       'Room width'      => $this->getRoom()->width,
-      'Room weight'      => $this->getRoom()->weight,
+      'Room height'      => $this->getRoom()->height,
     ];
   }
 }

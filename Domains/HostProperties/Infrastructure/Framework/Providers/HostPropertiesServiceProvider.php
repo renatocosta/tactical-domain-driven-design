@@ -3,14 +3,21 @@
 namespace Domains\HostProperties\Infrastructure\Framework\Providers;
 
 use Common\Application\Event\Bus\DomainEventBus;
-use Domains\Context\BankAccount\Application\UseCases\Account\CreatePropertyUseCase;
+use Common\Policy\IPolicy;
 use Domains\HostProperties\Application\EventHandlers\Property\PropertyCreatedEventHandler;
 use Domains\HostProperties\Application\EventHandlers\Property\PropertyRejectedEventHandler;
+use Domains\HostProperties\Application\UseCases\Property\CreatePropertyUseCase;
 use Domains\HostProperties\Application\UseCases\Property\ICreatePropertyUseCase;
+use Domains\HostProperties\Application\UseCases\Property\Queries\GetAllAccountsQuery;
+use Domains\HostProperties\Application\UseCases\Property\Queries\IGetAccountsQuery;
 use Domains\HostProperties\Domain\Model\Property\IPropertyRepository;
+use Domains\HostProperties\Domain\Model\Property\Policies\PropertyDuplicatedPolicy;
 use Domains\HostProperties\Domain\Model\Property\Property;
 use Domains\HostProperties\Domain\Model\Property\PropertyEntity;
+use Domains\HostProperties\Domain\Model\Property\Room;
+use Domains\HostProperties\Domain\Model\Property\Specifications\PropertyRoomDiscountBetweenSpecification;
 use Domains\HostProperties\Infrastructure\Domain\Repositories\PropertyRepository;
+use Domains\HostProperties\Infrastructure\Domain\Repositories\PropertyRepositoryFake;
 use Domains\HostProperties\Infrastructure\Domain\Repositories\PropertyRepositoryInMemory;
 use Domains\HostProperties\Infrastructure\Framework\Entities\PropertyModel;
 use Illuminate\Support\ServiceProvider;
@@ -51,35 +58,44 @@ class HostPropertiesServiceProvider extends ServiceProvider
         });
 
         //For only use cases under Property model
-        $this->app->singleton(IPropertyRepository::class, function () {
+        $this->app->singleton(IPropertyRepository::class, function ($app) {
             $baseRepo = new PropertyRepository(new PropertyModel());
-            $cachingRepo = new PropertyRepositoryInMemory($baseRepo, $this->app['cache.store']);
-            return $cachingRepo;
+            //$cachingRepo = new PropertyRepositoryInMemory($baseRepo, $this->app['cache.store']);
+            $fakeRepo = new PropertyRepositoryFake($app[Property::class]);
+            return $fakeRepo;
         });
 
-        $this->app->singleton(Property::class, function (DomainEventBus $domainEventBus) {
-            return new PropertyEntity($domainEventBus);
+        $this->app->bind(PropertyRoomDiscountBetweenSpecification::class, function () {
+            return new PropertyRoomDiscountBetweenSpecification(Room::MIN_WIDTH, Room::MAX_WIDTH);
+        });
+
+        $this->app->bind(IPolicy::class, function ($app) {
+            return new PropertyDuplicatedPolicy($app[Property::class]);
+        });
+
+        $this->app->bind(Property::class, function ($app) {
+            return new PropertyEntity($app[DomainEventBus::class]);
         });
     }
 
     public function loadUseCases(): void
     {
         ## Create a Property ##
-        $this->app->singleton(
+        $this->app->bind(
             ICreatePropertyUseCase::class,
-            function (DomainEventBus $domainEventBus, Property $property, IPropertyRepository $propertyRepository) {
-                $domainEventBus->subscribers([new PropertyCreatedEventHandler($propertyRepository), new PropertyRejectedEventHandler()]);
-                return new CreatePropertyUseCase($property);
+            function ($app) {
+                $app[DomainEventBus::class]->subscribers([new PropertyCreatedEventHandler($app[IPolicy::class], $app[IPropertyRepository::class]), new PropertyRejectedEventHandler()]);
+                return new CreatePropertyUseCase($app[Property::class], $app[PropertyRoomDiscountBetweenSpecification::class]);
             }
         );
 
         ## Querying all Properties ##
-        /*$this->app->singleton(
-            IGetAccounts::class,
-            function (IAccountRepository $accountRepository) {
-                return new GetAllAccountsQuery($accountRepository);
+        $this->app->bind(
+            IGetAccountsQuery::class,
+            function ($app) {
+                return new GetAllAccountsQuery($app[IPropertyRepository::class]);
             }
-        );*/
+        );
     }
 
     /**
@@ -89,13 +105,6 @@ class HostPropertiesServiceProvider extends ServiceProvider
      */
     protected function registerConfig()
     {
-        $this->publishes([
-            __DIR__ . '/../Config/config.php' => config_path('tasks.php'),
-        ], 'config');
-        $this->mergeConfigFrom(
-            __DIR__ . '/../Config/config.php',
-            'tasks'
-        );
     }
 
     /**
@@ -105,13 +114,6 @@ class HostPropertiesServiceProvider extends ServiceProvider
      */
     public function registerTranslations()
     {
-        $langPath = resource_path('lang/modules/tasks');
-
-        if (is_dir($langPath)) {
-            $this->loadTranslationsFrom($langPath, 'tasks');
-        } else {
-            $this->loadTranslationsFrom(__DIR__ . '/../Resources/lang', 'tasks');
-        }
     }
 
     /**

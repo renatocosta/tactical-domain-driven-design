@@ -1,8 +1,8 @@
 <?php
 
-namespace CrossCutting\ValueObjects\Money;
+namespace Common\ValueObjects\Money;
 
-use CrossCutting\ValueObjects\ValueObject;
+use Common\ValueObjects\ValueObject;
 use Generator;
 use InvalidArgumentException;
 

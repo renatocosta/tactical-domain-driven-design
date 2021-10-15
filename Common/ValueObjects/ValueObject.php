@@ -1,6 +1,6 @@
 <?php
 
-namespace CrossCutting\ValueObjects;
+namespace Common\ValueObjects;
 
 interface ValueObject
 {

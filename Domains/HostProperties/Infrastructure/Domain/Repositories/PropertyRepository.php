@@ -3,6 +3,7 @@
 namespace Domains\HostProperties\Infrastructure\Domain\Repositories;
 
 use Domains\HostProperties\Domain\Model\Property\IPropertyRepository;
+use Domains\HostProperties\Domain\Model\Property\Property;
 use Domains\HostProperties\Infrastructure\Framework\Entities\PropertyModel;
 
 final class PropertyRepository implements IPropertyRepository 

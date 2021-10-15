@@ -3,7 +3,8 @@
 namespace Domains\HostProperties\Domain\Model\Property;
 
 use Assert\Assert;
-use CrossCutting\ValueObjects\ValueObject;
+use Assert\AssertionFailedException;
+use Common\ValueObjects\ValueObject;
 
 final class Address implements ValueObject
 {
@@ -20,13 +21,15 @@ final class Address implements ValueObject
 
     public function __construct(string $street, string $city, string $state, string $country, string $zipcode)
     {
-        Assert::lazy()
-            ->that($street)->notEmpty()->length(200)
-            ->that($city)->notEmpty()->length(100)
-            ->that($state)->notEmpty()->length(2)
-            ->that($country)->notEmpty()->length(100)
-            ->that($zipcode)->notEmpty()->length(8)->regex("/\b[A-Z]{2}\s+\d{5}(-\d{4})?\b/")
-            ->verifyNow();
+        try {
+            Assert::that($street)->notEmpty()->minLength(2);
+            Assert::that($city)->notEmpty()->minLength(3);
+            Assert::that($state)->notEmpty()->minLength(2);
+            Assert::that($country)->notEmpty()->minLength(3);
+            //Assert::that($zipcode)->notEmpty()->length(9)->regex("/\b[A-Z]{2}\s+\d{5}(-\d{4})?\b/");    
+        } catch (AssertionFailedException $e) {
+            throw new PropertyException($e->getMessage());
+        }
 
         $this->street = $street;
         $this->city = $city;

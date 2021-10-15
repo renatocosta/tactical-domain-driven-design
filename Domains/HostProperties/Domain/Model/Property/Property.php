@@ -2,7 +2,7 @@
 
 namespace Domains\HostProperties\Domain\Model\Property;
 
-use CrossCutting\ValueObjects\Identity\Identified;
+use Common\ValueObjects\Identity\Identified;
 
 interface Property
 {
@@ -17,7 +17,8 @@ interface Property
 
     public function getRoom(): Room;
 
-    public function createNew(Identified $identifier, Address $address, Room $room): void;
+    public function createNew(): void;
 
-    public function fromExisting(Identified $identifier): void;
+    public function of(Identified $identifier, Address $address, Room $room): void;
+
 }

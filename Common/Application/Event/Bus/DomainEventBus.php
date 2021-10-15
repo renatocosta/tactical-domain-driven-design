@@ -6,18 +6,16 @@ use Common\Application\Event\AbstractEvent;
 use Common\Application\Event\DomainEventHandler;
 use Exception;
 use InvalidArgumentException;
+use SplDoublyLinkedList;
 
 final class DomainEventBus
 {
 
-    /**
-     * @var \SplDoublyLinkedList
-     */
-    private $eventHandlers;
+    private SplDoublyLinkedList $eventHandlers;
 
     public function __construct()
     {
-        $this->eventHandlers = new \SplDoublyLinkedList();
+        $this->eventHandlers = new SplDoublyLinkedList();
     }
 
     public function __clone()
@@ -27,7 +25,6 @@ final class DomainEventBus
 
     public function subscribers(array $subscribers): void
     {
-
         if (count($subscribers) === 0) throw new Exception('At least one field required');
 
         foreach ($subscribers as $subscriber) {
@@ -43,10 +40,8 @@ final class DomainEventBus
 
     public function publish(AbstractEvent $aDomainEvent): void
     {
-
         for ($this->eventHandlers->rewind(); $this->eventHandlers->valid(); $this->eventHandlers->next()) {
             $eventHandler = $this->eventHandlers->current();
-
             if ($eventHandler->isSubscribedTo($aDomainEvent)) {
                 $eventHandler->handle($aDomainEvent);
                 break;

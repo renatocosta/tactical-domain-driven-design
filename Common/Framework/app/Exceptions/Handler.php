@@ -2,11 +2,13 @@
 
 namespace App\Exceptions;
 
+use Domains\HostProperties\Domain\Model\Property\PropertyException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Validation\ValidationException;
 use Laravel\Lumen\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -21,6 +23,20 @@ class Handler extends ExceptionHandler
         HttpException::class,
         ModelNotFoundException::class,
         ValidationException::class,
+    ];
+
+    /**
+     * This mapping holds exceptions we're interested in and creates a simple configuration that can guide us
+     * with formatting how it is rendered.
+     *
+     * @var array|array[]
+     */
+    protected array $exceptionMap = [
+        PropertyException::class => [
+            'code' => Response::HTTP_UNPROCESSABLE_ENTITY,
+            'message' => 'You provided some invalid input value',
+            'adaptMessage' => true,
+        ],
     ];
 
     /**
@@ -49,6 +65,37 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Throwable $exception)
     {
-        return parent::render($request, $exception);
+        $response = $this->formatException($exception);
+
+        return response()->json(['error' => $response], $response['status'] ?? 500);
+    }
+
+    /**
+     * A simple implementation to help us format an exception before we render me
+     *
+     * @param \Throwable $exception
+     *
+     * @return array
+     */
+    protected function formatException(\Throwable $exception): array
+    {
+
+        $exceptionClass = get_class($exception);
+
+        $definition = $this->exceptionMap[$exceptionClass] ?? [
+            'code' => 500,
+            'message' => $exception->getMessage() ?? 'Something went wrong while processing your request',
+            'adaptMessage' => false,
+        ];
+
+        if (!empty($definition['adaptMessage'])) {
+            $definition['message'] = $exception->getMessage() ?? $definition['message'];
+        }
+
+        return [
+            'status' => $definition['code'] ?? Response::HTTP_INTERNAL_SERVER_ERROR,
+            'title' => $definition['title'] ?? 'Error',
+            'description' => $definition['message'],
+        ];
     }
 }

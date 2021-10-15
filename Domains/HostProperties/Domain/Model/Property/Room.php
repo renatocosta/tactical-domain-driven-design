@@ -3,7 +3,8 @@
 namespace Domains\HostProperties\Domain\Model\Property;
 
 use Assert\Assert;
-use CrossCutting\ValueObjects\ValueObject;
+use Assert\AssertionFailedException;
+use Common\ValueObjects\ValueObject;
 
 final class Room implements ValueObject
 {
@@ -12,12 +13,18 @@ final class Room implements ValueObject
 
     public int $height;
 
+    public const MIN_WIDTH = 10;
+
+    public const MAX_WIDTH = 60;
+
     public function __construct(int $width, int $height)
     {
-        Assert::lazy()
-            ->that($width)->notEmpty()->length(200)
-            ->that($height)->notEmpty()->length(100)
-            ->verifyNow();
+        try {
+            Assert::that($width)->notEmpty()->greaterOrEqualThan(2);
+            Assert::that($height)->notEmpty();
+        } catch (AssertionFailedException $e) {
+            throw new PropertyException($e->getMessage());
+        }
 
         $this->width = $width;
         $this->height = $height;

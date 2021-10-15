@@ -2,7 +2,7 @@
 
 namespace Domains\HostProperties\Infrastructure\Framework\DataAccess;
 
-use Common\CrossCuttingConcerns\DataConsistency\IUnitOfWork;
+use Common\DataConsistency\IUnitOfWork;
 
 final class UnitOfWork implements IUnitOfWork
 {

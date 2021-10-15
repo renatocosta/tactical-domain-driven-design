@@ -1,6 +1,6 @@
 <?php
 
-namespace CrossCutting\Domain\Model\Specification;
+namespace Common\Specification;
 
 /**
  * Interface it is for create a specification that is able to tell if a candidate object matches some criteria.

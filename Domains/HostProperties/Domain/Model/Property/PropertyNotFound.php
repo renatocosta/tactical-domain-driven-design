@@ -33,7 +33,7 @@ final class PropertyNotFound implements Property
         throw new BadMethodCallException('Not implemented');
     }
 
-    public function createNew(Identified $identifier, Address $address, Room $room): void
+    public function createNew(): void
     {
         throw new BadMethodCallException('Not implemented');
     }

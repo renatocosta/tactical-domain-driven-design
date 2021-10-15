@@ -1,6 +1,6 @@
 <?php
 
-namespace Domains\CrossCutting\DataConsistency;
+namespace Common\DataConsistency;
 
 interface Validatable
 {

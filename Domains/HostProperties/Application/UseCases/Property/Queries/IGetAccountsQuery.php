@@ -1,6 +1,6 @@
 <?php
 
-namespace Domains\Context\BankAccount\Application\UseCases\Account;
+namespace Domains\HostProperties\Application\UseCases\Property\Queries;
 
 interface IGetAccountsQuery
 {

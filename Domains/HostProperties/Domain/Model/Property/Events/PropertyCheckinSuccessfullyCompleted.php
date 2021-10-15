@@ -2,7 +2,7 @@
 
 namespace Domains\HostProperties\Domain\Model\Property\Events;
 
-use CrossCutting\Domain\Application\Event\AbstractEvent;
+use Common\Application\Event\AbstractEvent;
 use Domains\HostProperties\Domain\Model\Property\Property;
 
 class PropertyCheckinSuccessfullyCompleted extends AbstractEvent

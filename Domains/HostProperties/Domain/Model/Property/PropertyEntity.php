@@ -3,11 +3,12 @@
 namespace Domains\HostProperties\Domain\Model\Property;
 
 use Common\Application\Event\Bus\DomainEventBus;
-use CrossCutting\Domain\Model\ValueObjects\AggregateRoot;
-use CrossCutting\ValueObjects\Identity\Identified;
+use Common\ValueObjects\AggregateRoot;
+use Common\ValueObjects\Identity\Identified;
 use Domains\HostProperties\Domain\Model\Property\Events\PropertyCheckinSuccessfullyCompleted;
 use Domains\HostProperties\Domain\Model\Property\Events\PropertyCheckoutSuccessfullyCompleted;
 use Domains\HostProperties\Domain\Model\Property\Events\PropertyCreated;
+use Domains\HostProperties\Domain\Model\Property\Events\PropertyRejected;
 
 final class PropertyEntity extends AggregateRoot implements Property
 {
@@ -21,11 +22,6 @@ final class PropertyEntity extends AggregateRoot implements Property
     private Address $address;
 
     private Room $room;
-
-    public function __construct(DomainEventBus $domainEventBus)
-    {
-        parent::__construct($domainEventBus);
-    }
 
     public function checkin(int $occurredOn): void
     {
@@ -56,18 +52,18 @@ final class PropertyEntity extends AggregateRoot implements Property
         return $this->room;
     }
 
-    public function createNew(Identified $identifier, Address $address, Room $room): void
+    public function of(Identified $identifier, Address $address, Room $room): void
     {
         $this->identifier = $identifier;
         $this->address = $address;
         $this->room = $room;
-        $this->raise(new PropertyCreated($this));
-        //$this->raise(new PropertyRejected($this));
+        //Validations here as possible
     }
 
-    public function fromExisting(Identified $identifier): void
+    public function createNew(): void
     {
-        $this->identifier = $identifier;
+        $this->raise(new PropertyCreated($this));
+        //$this->raise(new PropertyRejected($this));
     }
 
     public function __toString(): string

@@ -1,9 +1,9 @@
 <?php
 
-namespace CrossCutting\Domain\Model\ValueObjects;
+namespace Common\ValueObjects;
 
-use CrossCutting\Domain\Application\Event\Bus\DomainEventBus;
-use CrossCutting\Domain\Application\Event\EventInterface;
+use Common\Application\Event\Bus\DomainEventBus;
+use Common\Application\Event\EventInterface;
 
 abstract class AggregateRoot
 {
@@ -13,7 +13,7 @@ abstract class AggregateRoot
      */
     protected $domainEventBus;
 
-    protected function __construct(DomainEventBus $domainEventBus)
+    public function __construct(DomainEventBus $domainEventBus)
     {
         $this->domainEventBus = $domainEventBus;
     }
@@ -22,5 +22,4 @@ abstract class AggregateRoot
     {
         $this->domainEventBus->publish($event);
     }
-
 }
