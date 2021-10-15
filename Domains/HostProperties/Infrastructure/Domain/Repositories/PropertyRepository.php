@@ -18,7 +18,10 @@ final class PropertyRepository implements IPropertyRepository
     
     public function findAll(): array
     {
-
+        return $this->model
+            ->select('id', 'street', 'city', 'state')
+            ->orderBy('id', 'DESC')
+            ->get();
     }
 
     public function update(Property $property): void

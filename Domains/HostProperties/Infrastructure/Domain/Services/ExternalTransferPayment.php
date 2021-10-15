@@ -1,6 +1,6 @@
 <?php
 
-namespace Domains\Context\BankAccount\Infrastructure\Domain\Services;
+namespace Domains\HostProperties\Infrastructure\Domain\Services;
 
 use Common\ValueObjects\Money\Money;
 use Domains\Context\BankAccount\Domain\Model\Account\Account;
