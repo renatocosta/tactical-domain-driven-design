@@ -1,17 +1,18 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="./vendor/phpunit/phpunit/phpunit.xsd"
-         bootstrap="vendor/autoload.php"
-         colors="true"
->
+<?xml version="1.0"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" backupGlobals="false" backupStaticAttributes="false" colors="true" convertErrorsToExceptions="true" convertNoticesToExceptions="true" convertWarningsToExceptions="true" processIsolation="false" stopOnFailure="true" testdox="true" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
+    <coverage processUncoveredFiles="true">
+        <include>
+            <directory suffix=".php">Domains/HostProperties</directory>
+        </include>
+        <exclude>
+            <directory suffix=".php">Domains/HostProperties/Infrastructure</directory>
+            <directory suffix=".php">Domains/HostProperties/Application/EventHandlers</directory>
+            <directory suffix=".php">Domains/HostProperties/Interfaces</directory>
+        </exclude>
+    </coverage>
     <testsuites>
-        <testsuite name="Application Test Suite">
-            <directory suffix="Test.php">./../../tests</directory>
+        <testsuite name="HostProperties">
+            <directory suffix="Test.php">./../../tests/HostProperties</directory>
         </testsuite>
     </testsuites>
-    <php>
-        <env name="APP_ENV" value="testing"/>
-        <env name="CACHE_DRIVER" value="array"/>
-        <env name="QUEUE_CONNECTION" value="sync"/>
-    </php>
 </phpunit>

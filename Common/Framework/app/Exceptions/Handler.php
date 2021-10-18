@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use Domains\HostProperties\Domain\Model\Calendar\CalendarException;
 use Domains\HostProperties\Domain\Model\Property\PropertyException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -33,6 +34,11 @@ class Handler extends ExceptionHandler
      */
     protected array $exceptionMap = [
         PropertyException::class => [
+            'code' => Response::HTTP_UNPROCESSABLE_ENTITY,
+            'message' => 'You provided some invalid input value',
+            'adaptMessage' => true,
+        ],
+        CalendarException::class => [
             'code' => Response::HTTP_UNPROCESSABLE_ENTITY,
             'message' => 'You provided some invalid input value',
             'adaptMessage' => true,
@@ -83,7 +89,7 @@ class Handler extends ExceptionHandler
         $exceptionClass = get_class($exception);
 
         $definition = $this->exceptionMap[$exceptionClass] ?? [
-            'code' => 500,
+            'code' => $exception->getStatusCode(),
             'message' => $exception->getMessage() ?? 'Something went wrong while processing your request',
             'adaptMessage' => false,
         ];
