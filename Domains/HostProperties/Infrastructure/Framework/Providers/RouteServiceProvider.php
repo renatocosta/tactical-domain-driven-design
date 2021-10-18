@@ -37,7 +37,7 @@ class RouteServiceProvider extends ServiceProvider
         $this->app->router
         ->group([
             'namespace' => 'Domains\HostProperties\Interfaces\Incoming\WebApi\Controllers',
-            'prefix'    => 'properties',
+            'prefix'    => 'hostproperties',
         ], function ($router) {
             require __DIR__ . '/../Routes/api.php';
         });

@@ -4,7 +4,7 @@ namespace Domains\HostProperties\Application\UseCases\Property\Queries;
 
 use Domains\HostProperties\Domain\Model\Property\IPropertyRepository;
 
-final class GetAllAccountsQuery implements IGetAccountsQuery
+final class GetAllPropertyQuery implements IGetPropertyQuery
 {
 
     private IPropertyRepository $propertyRepository;

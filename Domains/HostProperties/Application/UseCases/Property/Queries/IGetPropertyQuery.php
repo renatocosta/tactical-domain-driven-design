@@ -2,7 +2,7 @@
 
 namespace Domains\HostProperties\Application\UseCases\Property\Queries;
 
-interface IGetAccountsQuery
+interface IGetPropertyQuery
 {
 
     public function execute(): array;

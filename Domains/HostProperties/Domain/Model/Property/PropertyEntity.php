@@ -2,13 +2,11 @@
 
 namespace Domains\HostProperties\Domain\Model\Property;
 
-use Common\Application\Event\Bus\DomainEventBus;
 use Common\ValueObjects\AggregateRoot;
 use Common\ValueObjects\Identity\Identified;
 use Domains\HostProperties\Domain\Model\Property\Events\PropertyCheckinSuccessfullyCompleted;
 use Domains\HostProperties\Domain\Model\Property\Events\PropertyCheckoutSuccessfullyCompleted;
 use Domains\HostProperties\Domain\Model\Property\Events\PropertyCreated;
-use Domains\HostProperties\Domain\Model\Property\Events\PropertyRejected;
 
 final class PropertyEntity extends AggregateRoot implements Property
 {
@@ -58,6 +56,11 @@ final class PropertyEntity extends AggregateRoot implements Property
         $this->address = $address;
         $this->room = $room;
         //Validations here as possible
+    }
+
+    public function fromExisting(Identified $identifier): void
+    {
+        $this->identifier = $identifier;
     }
 
     public function createNew(): void

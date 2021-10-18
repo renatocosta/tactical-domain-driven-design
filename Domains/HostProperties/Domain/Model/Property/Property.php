@@ -19,6 +19,8 @@ interface Property
 
     public function createNew(): void;
 
+    public function fromExisting(Identified $identifier): void;
+
     public function of(Identified $identifier, Address $address, Room $room): void;
 
 }

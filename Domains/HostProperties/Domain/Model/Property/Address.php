@@ -22,10 +22,10 @@ final class Address implements ValueObject
     public function __construct(string $street, string $city, string $state, string $country, string $zipcode)
     {
         try {
-            Assert::that($street)->notEmpty()->minLength(2);
-            Assert::that($city)->notEmpty()->minLength(3);
-            Assert::that($state)->notEmpty()->minLength(2);
-            Assert::that($country)->notEmpty()->minLength(3);
+            Assert::that($street)->notEmpty()->minLength(10);
+            Assert::that($city)->notEmpty()->minLength(20);
+            Assert::that($state)->notEmpty()->minLength(29);
+            Assert::that($country)->notEmpty()->minLength(63);
             //Assert::that($zipcode)->notEmpty()->length(9)->regex("/\b[A-Z]{2}\s+\d{5}(-\d{4})?\b/");    
         } catch (AssertionFailedException $e) {
             throw new PropertyException($e->getMessage());
