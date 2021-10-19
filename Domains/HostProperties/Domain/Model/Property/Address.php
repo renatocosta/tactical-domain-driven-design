@@ -23,9 +23,9 @@ final class Address implements ValueObject
     {
         try {
             Assert::that($street)->notEmpty()->minLength(10);
-            Assert::that($city)->notEmpty()->minLength(20);
-            Assert::that($state)->notEmpty()->minLength(29);
-            Assert::that($country)->notEmpty()->minLength(63);
+            Assert::that($city)->notEmpty()->minLength(4);
+            Assert::that($state)->notEmpty()->minLength(3);
+            Assert::that($country)->notEmpty()->minLength(2);
             //Assert::that($zipcode)->notEmpty()->length(9)->regex("/\b[A-Z]{2}\s+\d{5}(-\d{4})?\b/");    
         } catch (AssertionFailedException $e) {
             throw new PropertyException($e->getMessage());

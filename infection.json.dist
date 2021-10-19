@@ -1,0 +1,17 @@
+{
+    "source": {
+        "directories": [
+            "Domains"
+        ]
+    },
+    "phpUnit": {
+        "configDir": "Common\/Framework",
+        "customPath": "Common\/Framework\/vendor"
+    },
+    "logs": {
+        "text": "Common\/Framework\/storage\/logs"
+    },
+    "mutators": {
+        "@default": true
+    }
+}

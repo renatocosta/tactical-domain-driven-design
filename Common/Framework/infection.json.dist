@@ -1,0 +1,13 @@
+{
+    "source": {
+        "directories": [
+            "..\/..\/Domains"
+        ]
+    },
+    "logs": {
+        "text": "storage\/logs"
+    },
+    "mutators": {
+        "@default": true
+    }
+}

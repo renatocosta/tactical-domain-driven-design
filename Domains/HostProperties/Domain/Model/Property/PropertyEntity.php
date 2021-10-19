@@ -2,6 +2,9 @@
 
 namespace Domains\HostProperties\Domain\Model\Property;
 
+use Assert\Assert;
+use Assert\AssertionFailedException;
+use Carbon\Carbon;
 use Common\ValueObjects\AggregateRoot;
 use Common\ValueObjects\Identity\Identified;
 use Domains\HostProperties\Domain\Model\Property\Events\PropertyCheckinSuccessfullyCompleted;
@@ -23,6 +26,13 @@ final class PropertyEntity extends AggregateRoot implements Property
 
     public function checkin(int $occurredOn): void
     {
+
+        try {
+            Assert::that($occurredOn)->greaterOrEqualThan(Carbon::now()->timestamp);
+        } catch (AssertionFailedException $e) {
+            throw new PropertyException($e->getMessage());
+        }
+
         $this->checkinWhen = $occurredOn;
         //validations here
         $this->raise(new PropertyCheckinSuccessfullyCompleted($this));
@@ -30,6 +40,13 @@ final class PropertyEntity extends AggregateRoot implements Property
 
     public function checkout(int $occurredOn): void
     {
+
+        try {
+            Assert::that($occurredOn)->greaterOrEqualThan(Carbon::now()->timestamp);
+        } catch (AssertionFailedException $e) {
+            throw new PropertyException($e->getMessage());
+        }
+
         $this->checkoutWhen = $occurredOn;
         //validations here
         $this->raise(new PropertyCheckoutSuccessfullyCompleted($this));

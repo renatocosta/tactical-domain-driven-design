@@ -5,7 +5,6 @@ namespace Common\Application\Event\Bus;
 use Common\Application\Event\AbstractEvent;
 use Common\Application\Event\DomainEventHandler;
 use Exception;
-use Illuminate\Support\Facades\Log;
 use InvalidArgumentException;
 use SplDoublyLinkedList;
 
