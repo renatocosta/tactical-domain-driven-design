@@ -3,6 +3,7 @@
 namespace Tests\HostProperties\Property\Model;
 
 use Common\Application\Event\Bus\DomainEventBus;
+use Common\DataConsistency\UnitOfWork;
 use Common\Policy\IPolicy;
 use Common\ValueObjects\Identity\Guid;
 use DG\BypassFinals;
@@ -41,7 +42,7 @@ class PropertyTest extends TestCase
         $this->expectException(PropertyException::class);
 
         $domainEventBus = Mockery::spy(new DomainEventBus());
-        $domainEventBus->subscribers([new PropertyCreatedEventHandler($this->app[IPolicy::class], $this->app[IPropertyRepository::class]), new PropertyRejectedEventHandler()]);
+        $domainEventBus->subscribers([new PropertyCreatedEventHandler($this->app[IPolicy::class], $this->app[IPropertyRepository::class]), new PropertyRejectedEventHandler(new UnitOfWork())]);
 
         $domainEventBus->shouldNotReceive('publish');
         $address = new Address('Av jejj kshjkjhskjhs jkhkh', 'Phoenix', 'Arizona', 'USA', '0672612');
@@ -57,7 +58,7 @@ class PropertyTest extends TestCase
         $this->expectException(PropertyException::class);
 
         $domainEventBus = Mockery::spy(new DomainEventBus());
-        $domainEventBus->subscribers([new PropertyCreatedEventHandler($this->app[IPolicy::class], $this->app[IPropertyRepository::class]), new PropertyRejectedEventHandler()]);
+        $domainEventBus->subscribers([new PropertyCreatedEventHandler($this->app[IPolicy::class], $this->app[IPropertyRepository::class]), new PropertyRejectedEventHandler(new UnitOfWork())]);
 
         $domainEventBus->shouldNotReceive('publish');
         $address = new Address('Av jejj kshjkjhskjhs jkhkh', 'Phoenix', 'Arizona', 'USA', '0672612');

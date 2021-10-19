@@ -3,6 +3,7 @@
 namespace Domains\HostProperties\Infrastructure\Framework\Providers;
 
 use Common\Application\Event\Bus\DomainEventBus;
+use Common\DataConsistency\UnitOfWork;
 use Common\Policy\IPolicy;
 use Domains\HostProperties\Application\EventHandlers\Calendar\CalendarCreatedEventHandler;
 use Domains\HostProperties\Application\EventHandlers\Calendar\CalendarMixPanelNotificationEventHandler;
@@ -112,7 +113,7 @@ class HostPropertiesServiceProvider extends ServiceProvider
         $this->app->singleton(
             ICreatePropertyUseCase::class,
             function ($app) {
-                $app[DomainEventBus::class]->subscribers([new PropertyCreatedEventHandler($app[IPolicy::class], $app[IPropertyRepository::class]), new PropertyRejectedEventHandler()]);
+                $app[DomainEventBus::class]->subscribers([new PropertyCreatedEventHandler($app[IPolicy::class], $app[IPropertyRepository::class]), new PropertyRejectedEventHandler(new UnitOfWork())]);
                 return new CreatePropertyUseCase($app[Property::class], $app[PropertyRoomDiscountBetweenSpecification::class]);
             }
         );

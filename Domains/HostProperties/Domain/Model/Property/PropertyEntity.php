@@ -73,6 +73,8 @@ final class PropertyEntity extends AggregateRoot implements Property
         $this->address = $address;
         $this->room = $room;
         //Validations here as possible
+        //$this->raise(new PropertyRejected($this));
+
     }
 
     public function fromExisting(Identified $identifier): void
@@ -83,7 +85,6 @@ final class PropertyEntity extends AggregateRoot implements Property
     public function createNew(): void
     {
         $this->raise(new PropertyCreated($this));
-        //$this->raise(new PropertyRejected($this));
     }
 
     public function __toString(): string

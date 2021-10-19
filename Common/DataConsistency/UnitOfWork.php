@@ -1,6 +1,6 @@
 <?php
 
-namespace Domains\HostProperties\Infrastructure\Framework\DataAccess;
+namespace Common\DataConsistency;
 
 use Common\DataConsistency\IUnitOfWork;
 
