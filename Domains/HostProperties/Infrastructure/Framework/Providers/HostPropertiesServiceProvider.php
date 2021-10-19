@@ -130,7 +130,7 @@ class HostPropertiesServiceProvider extends ServiceProvider
         $this->app->singleton(
             ICreateCalendarUseCase::class,
             function ($app) {
-                $app[DomainEventBus::class]->subscribers([new CalendarCreatedEventHandler($app[ICalendarRepository::class]), new CalendarMixPanelNotificationEventHandler(), new CalendarRejectedEventHandler($app[ICalendarRepository::class])]);
+                $app[DomainEventBus::class]->subscribers([new CalendarCreatedEventHandler($app[ICalendarRepository::class]), new CalendarMixPanelNotificationEventHandler(), new CalendarRejectedEventHandler($app[ICalendarRepository::class], new UnitOfWork())]);
                 return new CreateCalendarUseCase($app[Calendar::class], $app[Property::class], $app[PropertyCalendarManageable::class]);
             }
         );
