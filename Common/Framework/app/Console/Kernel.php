@@ -2,7 +2,7 @@
 
 namespace App\Console;
 
-use App\Console\Commands\SynkProperties;
+use Domains\HostProperties\Interfaces\Incoming\Stream\SynkProperties;
 use Illuminate\Console\Scheduling\Schedule;
 use Laravel\Lumen\Console\Kernel as ConsoleKernel;
 

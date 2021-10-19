@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Console\Commands;
+namespace Domains\HostProperties\Interfaces\Incoming\Stream;
 
 use Domains\HostProperties\Domain\Model\Property\Property;
 use Illuminate\Console\Command;
