@@ -33,6 +33,7 @@ composer install
 
 ### Starting the Web Server
 php -S localhost:8010 -t public
+```
 
 ## Unit testing
 ```
