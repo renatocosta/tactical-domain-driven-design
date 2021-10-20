@@ -5,7 +5,7 @@ namespace Domains\HostProperties\Domain\Model\Calendar\Events;
 use Common\Application\Event\AbstractEvent;
 use Domains\HostProperties\Domain\Model\Calendar\Calendar;
 
-class CalendarNotification extends AbstractEvent
+class CalendarNotified extends AbstractEvent
 {
 
     public Calendar $calendar;
