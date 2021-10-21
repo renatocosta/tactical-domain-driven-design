@@ -9,7 +9,7 @@ This boilerplate consider most of building blocks for Sustainable Software Devel
 [Entity](Domains/HostProperties/Domain/Model/Property)  
 [Aggregate](Domains/HostProperties/Domain/Model/Property)  
 [Value Objects](Domains/HostProperties/Domain/Model/Property)  
-[Domain Services](Domains/HostProperties/Domain/Model/Property)    
+[Domain Services](Domains/HostProperties/Domain/Services)    
 [Repositories](Domains/HostProperties/Domain/Model/Property)    
 [Domain Events](Domains/HostProperties/Domain/Model/Property/Events)  
 [Specification](Domains/HostProperties/Domain/Model/Property/Specifications)  
@@ -17,6 +17,7 @@ This boilerplate consider most of building blocks for Sustainable Software Devel
 
 ### Building blocks under Clean Architecture
 ![Image](Common/assets/clean-architecture.png?raw=true)
+
 [Use Cases or Ports](Domains/HostProperties/Application/UseCases)  
 [Adapters](Domains/HostProperties/Interfaces)  
   
