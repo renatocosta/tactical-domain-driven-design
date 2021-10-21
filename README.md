@@ -20,7 +20,7 @@ This boilerplate consider the most building blocks for Sustainable Software Deve
 
 [Use Cases or Ports](Domains/HostProperties/Application/UseCases)  
 [Adapters](Domains/HostProperties/Interfaces)  
-  
+[Event Handlers](Domains/HostProperties/Application/EventHandlers)
 
 ## How To Use
 
