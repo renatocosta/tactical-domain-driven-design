@@ -1,1 +1,1 @@
-![Image](../../../../../../Common/assets/domain_event.png?raw=true)
+![Image](../../../../../../Common/assets/domain_event.png?raw=true)  
