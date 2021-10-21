@@ -2,7 +2,7 @@
 
 ## Getting Started
 
-This boilerplate gathering most of building blocks for Sustainable Software Development which are:
+This boilerplate consider most of building blocks for Sustainable Software Development which are:
 ### Building blocks under Domain-Driven Design
 ![Image](Common/assets/DDDBuildingBlocks.png?raw=true)
 
