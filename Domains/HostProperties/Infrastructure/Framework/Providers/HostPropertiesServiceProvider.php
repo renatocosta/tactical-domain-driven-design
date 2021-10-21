@@ -6,7 +6,7 @@ use Common\Application\Event\Bus\DomainEventBus;
 use Common\DataConsistency\UnitOfWork;
 use Common\Policy\IPolicy;
 use Domains\HostProperties\Application\EventHandlers\Calendar\CalendarCreatedEventHandler;
-use Domains\HostProperties\Application\EventHandlers\Calendar\CalendarMixPanelNotificationEventHandler;
+use Domains\HostProperties\Application\EventHandlers\Calendar\CalendarNotifiedEventHandler;
 use Domains\HostProperties\Application\EventHandlers\Calendar\CalendarRejectedEventHandler;
 use Domains\HostProperties\Application\EventHandlers\Property\PropertyCreatedEventHandler;
 use Domains\HostProperties\Application\EventHandlers\Property\PropertyRejectedEventHandler;
@@ -20,6 +20,7 @@ use Domains\HostProperties\Application\UseCases\Property\Queries\GetAllPropertyQ
 use Domains\HostProperties\Application\UseCases\Property\Queries\IGetPropertyQuery;
 use Domains\HostProperties\Domain\Model\Calendar\Calendar;
 use Domains\HostProperties\Domain\Model\Calendar\CalendarEntity;
+use Domains\HostProperties\Domain\Model\Calendar\Events\CalendarNotified;
 use Domains\HostProperties\Domain\Model\Calendar\ICalendarRepository;
 use Domains\HostProperties\Domain\Model\Property\IPropertyRepository;
 use Domains\HostProperties\Domain\Model\Property\Policies\PropertyDuplicatedPolicy;
@@ -130,7 +131,7 @@ class HostPropertiesServiceProvider extends ServiceProvider
         $this->app->singleton(
             ICreateCalendarUseCase::class,
             function ($app) {
-                $app[DomainEventBus::class]->subscribers([new CalendarCreatedEventHandler($app[ICalendarRepository::class]), new CalendarMixPanelNotificationEventHandler(), new CalendarRejectedEventHandler($app[ICalendarRepository::class], new UnitOfWork())]);
+                $app[DomainEventBus::class]->subscribers([new CalendarCreatedEventHandler($app[ICalendarRepository::class]), new CalendarNotifiedEventHandler(), new CalendarRejectedEventHandler($app[ICalendarRepository::class], new UnitOfWork())]);
                 return new CreateCalendarUseCase($app[Calendar::class], $app[Property::class], $app[PropertyCalendarManageable::class]);
             }
         );

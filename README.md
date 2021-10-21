@@ -4,22 +4,22 @@
 
 This boilerplate gathering most of building blocks for Sustainable Software Development which are:
 ### Building blocks under Domain-Driven Design
-```
-Entity  
-Aggregate  
-Aggregate Root  
-Value Objects  
-Domain Services  
-Repositories  
-Domain Event  
-Specification  
-Policy
-``` 
+![Image](Common/assets/DDDBuildingBlocks.png?raw=true)
+
+[Entity](Domains/HostProperties/Domain/Model/Property)  
+[Aggregate](Domains/HostProperties/Domain/Model/Property)  
+[Value Objects](Domains/HostProperties/Domain/Model/Property)  
+[Domain Services](Domains/HostProperties/Domain/Model/Property)    
+[Repositories](Domains/HostProperties/Domain/Model/Property)    
+[Domain Events](Domains/HostProperties/Domain/Model/Property/Events)  
+[Specification](Domains/HostProperties/Domain/Model/Property/Specifications)  
+[Policy](Domains/HostProperties/Domain/Model/Property/Policies)
+
 ### Building blocks under Clean Architecture
-```
-Use cases  
-Ports and Adapters  
-``` 
+![Image](Common/assets/clean-architecture.png?raw=true)
+[Use Cases or Ports](Domains/HostProperties/Application/UseCases)  
+[Adapters](Domains/HostProperties/Interfaces)  
+  
 
 ## How To Use
 

@@ -7,7 +7,7 @@ use Common\Application\Event\DomainEventHandler;
 use Domains\HostProperties\Domain\Model\Calendar\Events\CalendarCreated;
 use Illuminate\Support\Facades\Log;
 
-final class CalendarMixPanelNotificationEventHandler implements DomainEventHandler
+final class CalendarNotifiedEventHandler implements DomainEventHandler
 {
 
     public function handle(AbstractEvent $domainEvent): void
