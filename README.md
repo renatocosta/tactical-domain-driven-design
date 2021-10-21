@@ -38,7 +38,7 @@ php -S localhost:8010 -t public
 
 ## Unit testing by Domain
 ```
-Host Properties: ./vendor/bin/phpunit --testsuite Boun 
+Host Properties: ./vendor/bin/phpunit --testsuite HostProperties 
 
 ./vendor/bin/phpunit --testsuite Another Domain
 ```
