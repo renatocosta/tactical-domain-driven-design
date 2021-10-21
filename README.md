@@ -2,7 +2,7 @@
 
 ## Getting Started
 
-This boilerplate consider most of building blocks for Sustainable Software Development which are:
+This boilerplate consider the most building blocks for Sustainable Software Development which are:
 ### Building blocks under Domain-Driven Design
 ![Image](Common/assets/DDDBuildingBlocks.png?raw=true)
 
@@ -36,7 +36,9 @@ composer install
 php -S localhost:8010 -t public
 ```
 
-## Unit testing
+## Unit testing by Domain
 ```
-Host Properties: ./vendor/bin/phpunit
+Host Properties: ./vendor/bin/phpunit --testsuite Boun 
+
+./vendor/bin/phpunit --testsuite Another Domain
 ```
