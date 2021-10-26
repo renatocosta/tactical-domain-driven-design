@@ -1,0 +1,1 @@
+![Image](Common/assets/Bounded-Context-Canvas.jpg?raw=true)
