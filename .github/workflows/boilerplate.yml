@@ -34,6 +34,8 @@ jobs:
       run: |
         mkdir -p database
         touch database/database.sqlite
+    - name: phpunit-coverage-badge
+      uses: timkrase/phpunit-coverage-badge@v1.2.0
     - name: Execute tests (Unit and Feature tests) via PHPUnit
       working-directory: ./Common/Framework
       env:
