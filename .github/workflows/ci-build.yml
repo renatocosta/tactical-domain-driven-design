@@ -41,11 +41,8 @@ jobs:
         DB_DATABASE: database/database.sqlite
       run: vendor/bin/phpunit --coverage-clover coverage.xml
     - name: Upload coverage report
-      if: always()
       uses: codecov/codecov-action@v2
       with:
-        token: ${{ secrets.CODECOV_TOKEN }}
-        file: ./coverage.xml
-        flags: tests
-        name: codecov-umbrella
-        fail_ci_if_error: true
+        token: ${{ secrets.CODECOV_TOKEN }}          
+        flags: unittests
+        verbose: true
