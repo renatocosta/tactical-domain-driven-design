@@ -1,4 +1,4 @@
-name: Boilerplate
+name: "ci build"
 
 on:
   push:
@@ -34,11 +34,17 @@ jobs:
       run: |
         mkdir -p database
         touch database/database.sqlite
-    - name: phpunit-coverage-badge
-      uses: timkrase/phpunit-coverage-badge@v1.2.0
     - name: Execute tests (Unit and Feature tests) via PHPUnit
       working-directory: ./Common/Framework
       env:
         DB_CONNECTION: sqlite
         DB_DATABASE: database/database.sqlite
-      run: vendor/bin/phpunit
+      run: vendor/bin/phpunit --coverage-clover coverage.xml
+    - uses: codecov/codecov-action@v2
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        files: ./coverage1.xml,./coverage2.xml # optional
+        flags: unittests # optional
+        name: codecov-umbrella # optional
+        fail_ci_if_error: true # optional (default = false)
+        verbose: true # optional (default = false)      

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" backupGlobals="false" backupStaticAttributes="false" colors="true" convertErrorsToExceptions="true" convertNoticesToExceptions="true" convertWarningsToExceptions="true" processIsolation="false" stopOnFailure="true" testdox="true" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
-    <coverage cacheDirectory=".phpunit.cache/code-coverage" processUncoveredFiles="true">
+    <coverage processUncoveredFiles="true">
         <include>
             <directory suffix=".php">Domains/HostProperties</directory>
         </include>
@@ -9,9 +9,6 @@
             <directory suffix=".php">Domains/HostProperties/Application/EventHandlers</directory>
             <directory suffix=".php">Domains/HostProperties/Interfaces</directory>
         </exclude>
-        <report>
-            <clover outputFile="clover.xml" />
-        </report>
     </coverage>
     <testsuites>
         <testsuite name="HostProperties">
