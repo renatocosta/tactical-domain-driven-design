@@ -44,5 +44,6 @@ jobs:
       if: always()
       uses: codecov/codecov-action@v2
       with:
-        token: ${{ secrets.CODECOV_TOKEN }}
-        files: ./coverage1.xml,./coverage2.xml
+        token: ${{ secrets.CODECOV_TOKEN }}          
+        flags: unittests
+        verbose: true
