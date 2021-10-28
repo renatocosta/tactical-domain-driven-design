@@ -3,6 +3,7 @@
 namespace Domains\HostProperties\Domain\Model\Property;
 
 use BadMethodCallException;
+use Common\ValueObjects\Identity\Identified;
 use Domains\HostProperties\Domain\Model\Property\Property;
 
 final class PropertyNotFound implements Property
@@ -18,7 +19,7 @@ final class PropertyNotFound implements Property
         throw new BadMethodCallException('Not implemented');
     }
 
-    public function getId(): Identified
+    public function getIdentifier(): Identified
     {
         throw new BadMethodCallException('Not implemented');
     }
@@ -39,6 +40,11 @@ final class PropertyNotFound implements Property
     }
 
     public function fromExisting(Identified $identifier): void
+    {
+        throw new BadMethodCallException('Not implemented');
+    }
+
+    public function of(Identified $identifier, Address $address, Room $room): void
     {
         throw new BadMethodCallException('Not implemented');
     }
