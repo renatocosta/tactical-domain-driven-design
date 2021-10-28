@@ -5,7 +5,7 @@
             <directory suffix=".php">../../Domains/HostProperties</directory>
         </include>
         <report>
-            <clover outputFile="clover.xml" />
+            <clover outputFile="../../clover.xml" />
         </report>
         <exclude>
             <directory suffix=".php">Domains/HostProperties/Infrastructure</directory>
