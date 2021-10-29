@@ -39,7 +39,7 @@ jobs:
       env:
         DB_CONNECTION: sqlite
         DB_DATABASE: database/database.sqlite
-      run: vendor/bin/phpunit --coverage-clover clover.xml && ls
+      run: vendor/bin/phpunit --coverage-clover clover.xml && pwd
     - name: Run codacy-coverage-reporter
       uses: codacy/codacy-coverage-reporter-action@v1
       with:
