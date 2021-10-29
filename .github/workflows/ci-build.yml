@@ -35,11 +35,11 @@ jobs:
         mkdir -p database
         touch database/database.sqlite
     - name: Execute tests (Unit and Feature tests) via PHPUnit
-      working-directory: ./Common/Framework
+      working-directory: ./
       env:
         DB_CONNECTION: sqlite
         DB_DATABASE: database/database.sqlite
-      run: vendor/bin/phpunit --coverage-clover ../../clover.xml
+      run: cd Common/Framework && vendor/bin/phpunit --coverage-clover ../../clover.xml
     - uses: actions/checkout@v2
     - name: Run codacy-coverage-reporter
       uses: codacy/codacy-coverage-reporter-action@v1
