@@ -39,13 +39,12 @@ jobs:
       env:
         DB_CONNECTION: sqlite
         DB_DATABASE: database/database.sqlite
-      run: vendor/bin/phpunit --coverage-clover clover.xml
-    - uses: actions/checkout@v2
-      run: | 
-          pwd  
+      run: vendor/bin/phpunit --coverage-clover clover.xml  
     - name: Run codacy-coverage-reporter
       uses: codacy/codacy-coverage-reporter-action@v1
       with:
         project-token: 70cfecfe76fa40e5a9f350087d82b96d
         coverage-reports: clover.xml
-
+    - uses: actions/checkout@v2
+      run: | 
+          pwd
