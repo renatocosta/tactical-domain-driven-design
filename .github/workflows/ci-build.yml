@@ -45,6 +45,5 @@ jobs:
       with:
         project-token: 70cfecfe76fa40e5a9f350087d82b96d
         coverage-reports: clover.xml
-    - uses: actions/checkout@v1
       run: | 
           pwd
