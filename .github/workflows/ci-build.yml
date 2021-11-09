@@ -45,3 +45,6 @@ jobs:
       with:
         project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
         coverage-reports: Common/Framework/clover.xml
+    - name: Mutation Testing with Infection PHP
+      working-directory: ./Common/Framework
+      run: php vendor/bin/infection --logger-github --git-diff-filter=A
