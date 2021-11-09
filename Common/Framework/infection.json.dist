@@ -1,0 +1,15 @@
+{
+    "source": {
+        "directories": [
+            "..\/..\/Domains"
+        ],
+        "excludes": [
+            "HostProperties\/Application",
+            "HostProperties\/Infrastructure",
+            "HostProperties\/Interfaces"
+        ]
+    },
+    "mutators": {
+        "@default": true
+    }
+}
