@@ -22,6 +22,7 @@ jobs:
       run: php -r "file_exists('.env') || copy('.env.example', '.env');"
     - name: STDOUT
       run: |
+        echo Hello there!
         echo ${{  secrets.DOCKER_CONTAINER_REGISTRY_TOKEN }}
         echo ${{ secrets.CODACY_PROJECT_TOKEN }}      
     - name: Install Dependencies
